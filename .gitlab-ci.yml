@@ -1,0 +1,11 @@
+image: node:18
+
+stages:
+  - qa
+
+"Has the feedback been filled out?":
+  stage: qa
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  script:
+    - if [[ $(grep -c 'YOUR ANSWER HERE' README.md) -gt 0 ]]; then echo "Please fill out the feedback section in the README.md"; exit 1 ;fi
