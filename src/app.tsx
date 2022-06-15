@@ -1,7 +1,7 @@
 
 declare var Router;
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React from "react";
+import ReactDOM from "react-dom";
 import { TodoModel } from "./todoModel";
 import { TodoFooter } from "./footer";
 import { TodoItem } from "./todoItem";
@@ -168,6 +168,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
     );
   }
 }
+
 
 var model = new TodoModel('react-todos');
 
