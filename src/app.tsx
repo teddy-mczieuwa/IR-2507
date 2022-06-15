@@ -174,7 +174,7 @@ var model = new TodoModel('react-todos');
 function render() {
   ReactDOM.render(
     <TodoApp model={model}/>,
-    document.getElementsByClassName('todoapp')[0]
+    document.getElementById('todoapp')
   );
 }
 
