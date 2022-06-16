@@ -6,13 +6,10 @@
 
 /// <reference path="./interfaces.d.ts"/>
 
-import classNames from "classnames";
 import React, {FC, useState, memo} from "react";
-import ReactDOM from "react-dom";
 import { ENTER_KEY, ESCAPE_KEY } from "./constants";
 
 const TodoItem:FC<ITodoItemProps> = memo(({
-
   todo,
   editing,
   onSave,
@@ -39,10 +36,10 @@ const TodoItem:FC<ITodoItemProps> = memo(({
   }
 
   const handleKeyDown = (event : React.KeyboardEvent) => {
-    if (event.keyCode === ESCAPE_KEY) {
+    if (event.key === ESCAPE_KEY) {
       setEditText(todo.title);
       onCancel(event);
-    } else if (event.keyCode === ENTER_KEY) {
+    } else if (event.key === ENTER_KEY) {
       handleSubmit();
     }
   }
@@ -52,6 +49,12 @@ const TodoItem:FC<ITodoItemProps> = memo(({
     setEditText(input.value);
   }
 
+  // const validateTodo = () :Boolean =>{
+
+  //   // check whether there are any tags
+  //   if(todo.title.match())
+  //   return false ;
+  // }
   return (
     <li className={`${editing ? 'editing' : ''} ${todo.completed ? 'completed' : ''}`}>
       <div className="view">
@@ -61,9 +64,23 @@ const TodoItem:FC<ITodoItemProps> = memo(({
           checked={todo.completed}
           onChange={onToggle}
         />
+       
         <label onDoubleClick={ () => handleEdit() }>
-          {todo.title}
+
+          {
+            todo.title.match(/@[a-zA-Z0-9]/gi) ? 
+            todo.title.split(" ").filter(word=> word.match(/^@[a-zA-Z0-9]/gi) === null ).join(" ").trim()   :
+          todo.title
+          }
         </label>
+
+        {todo.title.match(/@[a-zA-Z0-9]/gi) && <ul className="taglist">
+
+          {
+            todo.title.split(" ").filter(word=> word.match(/^@[a-zA-Z0-9]/gi) !== null).map((tag,i)=> <li key={i}>{tag.replace("@", "")}</li>)
+          }
+        </ul>}
+       
         <button className="destroy" onClick={onDestroy} />
       </div>
       <input

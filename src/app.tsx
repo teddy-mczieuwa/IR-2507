@@ -1,6 +1,6 @@
 
 declare var Router;
-import React from "react";
+import React, {FC} from "react";
 import ReactDOM from "react-dom";
 import { TodoModel } from "./todoModel";
 import { TodoFooter } from "./footer";
@@ -9,6 +9,14 @@ import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, ENTER_KEY } from "./constants
 import "todomvc-app-css/index.css";
 import "todomvc-common/base.css";
 
+const TodoAppFunctional:FC<IAppProps> = () => {
+  
+  return (
+    <div>Hello</div>
+  )
+}
+
+export default TodoAppFunctional
 class TodoApp extends React.Component<IAppProps, IAppState> {
 
   public state : IAppState;
@@ -32,7 +40,7 @@ class TodoApp extends React.Component<IAppProps, IAppState> {
   }
 
   public handleNewTodoKeyDown(event : React.KeyboardEvent) {
-    if (event.keyCode !== ENTER_KEY) {
+    if (event.key !== ENTER_KEY) {
       return;
     }
 
