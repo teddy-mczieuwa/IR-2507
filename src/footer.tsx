@@ -7,13 +7,13 @@
 /// <reference path="./interfaces.d.ts"/>
 
 import classNames from "classnames";
-import React, {FC} from "react";
+import React, {FC, memo} from "react";
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS } from "./constants";
 import { Utils } from "./utils";
 
-const TodoFooter:FC<ITodoFooterProps> = ({completedCount, onClearCompleted, nowShowing, count}) => {
-  const activeTodoWord = Utils.pluralize(count, 'item')
-  let clearButton = null
+const TodoFooter:FC<ITodoFooterProps> = memo(({completedCount, onClearCompleted, nowShowing, count}) => {
+  const activeTodoWord: string = Utils.pluralize(count, 'item')
+  let clearButton: any = null
 
   if(completedCount > 0) {
     clearButton = (
@@ -58,6 +58,6 @@ const TodoFooter:FC<ITodoFooterProps> = ({completedCount, onClearCompleted, nowS
     {clearButton}
   </footer>
   )
-}
+})
 
 export { TodoFooter };

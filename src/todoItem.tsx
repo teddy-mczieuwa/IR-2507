@@ -7,106 +7,74 @@
 /// <reference path="./interfaces.d.ts"/>
 
 import classNames from "classnames";
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React, {FC, useState, memo} from "react";
+import ReactDOM from "react-dom";
 import { ENTER_KEY, ESCAPE_KEY } from "./constants";
 
-class TodoItem extends React.Component<ITodoItemProps, ITodoItemState> {
+const TodoItem:FC<ITodoItemProps> = memo(({
 
-  public state : ITodoItemState;
+  todo,
+  editing,
+  onSave,
+  onDestroy,
+  onCancel,
+  onEdit,
+  onToggle
+}) => {
+  const [editText, setEditText] = useState<string>(todo.title)
 
-  constructor(props : ITodoItemProps){
-    super(props);
-    this.state = { editText: this.props.todo.title };
-  }
-
-  public handleSubmit(event : React.FormEvent) {
-    var val = this.state.editText.trim();
+  const handleSubmit = () => {
+    var val = editText.trim();
     if (val) {
-      this.props.onSave(val);
-      this.setState({editText: val});
+      onSave(val);
+      setEditText(val);
     } else {
-      this.props.onDestroy();
+      onDestroy();
     }
   }
 
-  public handleEdit() {
-    this.props.onEdit();
-    this.setState({editText: this.props.todo.title});
+  const handleEdit = () => {
+    onEdit();
+    setEditText(todo.title);
   }
 
-  public handleKeyDown(event : React.KeyboardEvent) {
+  const handleKeyDown = (event : React.KeyboardEvent) => {
     if (event.keyCode === ESCAPE_KEY) {
-      this.setState({editText: this.props.todo.title});
-      this.props.onCancel(event);
+      setEditText(todo.title);
+      onCancel(event);
     } else if (event.keyCode === ENTER_KEY) {
-      this.handleSubmit(event);
+      handleSubmit();
     }
   }
 
-  public handleChange(event : React.FormEvent) {
-    var input : any = event.target;
-    this.setState({ editText : input.value });
+  const handleChange = (event : React.FormEvent) => {
+    let input : any = event.target;
+    setEditText(input.value);
   }
 
-  /**
-   * This is a completely optional performance enhancement that you can
-   * implement on any React component. If you were to delete this method
-   * the app would still work correctly (and still be very performant!), we
-   * just use it as an example of how little code it takes to get an order
-   * of magnitude performance improvement.
-   */
-  public shouldComponentUpdate(nextProps : ITodoItemProps, nextState : ITodoItemState) {
-    return (
-      nextProps.todo !== this.props.todo ||
-      nextProps.editing !== this.props.editing ||
-      nextState.editText !== this.state.editText
-    );
-  }
-
-  /**
-   * Safely manipulate the DOM after updating the state when invoking
-   * `this.props.onEdit()` in the `handleEdit` method above.
-   * For more info refer to notes at https://facebook.github.io/react/docs/component-api.html#setstate
-   * and https://facebook.github.io/react/docs/component-specs.html#updating-componentdidupdate
-   */
-  public componentDidUpdate(prevProps : ITodoItemProps) {
-    if (!prevProps.editing && this.props.editing) {
-      var node = (ReactDOM.findDOMNode(this.refs["editField"]) as HTMLInputElement);
-      node.focus();
-      node.setSelectionRange(node.value.length, node.value.length);
-    }
-  }
-
-  public render() {
-    return (
-      <li className={classNames({
-        completed: this.props.todo.completed,
-        editing: this.props.editing
-      })}>
-        <div className="view">
-          <input
-            className="toggle"
-            type="checkbox"
-            checked={this.props.todo.completed}
-            onChange={this.props.onToggle}
-          />
-          <label onDoubleClick={ e => this.handleEdit() }>
-            {this.props.todo.title}
-          </label>
-          <button className="destroy" onClick={this.props.onDestroy} />
-        </div>
+  return (
+    <li className={`${editing ? 'editing' : ''} ${todo.completed ? 'completed' : ''}`}>
+      <div className="view">
         <input
-          ref="editField"
-          className="edit"
-          value={this.state.editText}
-          onBlur={ e => this.handleSubmit(e) }
-          onChange={ e => this.handleChange(e) }
-          onKeyDown={ e => this.handleKeyDown(e) }
+          className="toggle"
+          type="checkbox"
+          checked={todo.completed}
+          onChange={onToggle}
         />
-      </li>
-    );
-  }
-}
+        <label onDoubleClick={ () => handleEdit() }>
+          {todo.title}
+        </label>
+        <button className="destroy" onClick={onDestroy} />
+      </div>
+      <input
+        className="edit"
+        value={editText}
+        onBlur={ handleSubmit }
+        onChange={ e => handleChange(e) }
+        onKeyDown={ e => handleKeyDown(e) }
+      />
+    </li>
+  )
+})
 
 export { TodoItem };
