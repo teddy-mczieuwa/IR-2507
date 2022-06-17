@@ -4,7 +4,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 const webpackConfig = (env) => {
     return {
-        entry: path.join(__dirname, "src", "app.tsx"),
+        entry: path.join(__dirname, "src", "index.tsx"),
         output: {
           filename: 'js/bundle.[contenthash].js',
           path: path.join(__dirname, 'dist'),

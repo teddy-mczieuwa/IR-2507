@@ -11,6 +11,7 @@ interface ITodoItemProps {
   onSave: (val: any) => void;
   onDestroy: () => void;
   onEdit: ()  => void;
+  onUpdate: (updateValue: string) => void;
   onCancel: (event : any) => void;
   onToggle: () => void;
 }

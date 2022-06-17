@@ -31,6 +31,11 @@ class Utils {
     return (store && JSON.parse(store)) || [];
   }
 
+  public static fetch(namespace: string){
+
+    return  JSON.parse(localStorage.getItem(namespace));
+  }
+
   public static extend(...objs : any[]) : any {
     var newObj = {};
     for (var i = 0; i < objs.length; i++) {
