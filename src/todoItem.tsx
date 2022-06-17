@@ -68,6 +68,17 @@ const TodoItem:FC<ITodoItemProps> = memo(({
   //   if(todo.title.match())
   //   return false ;
   // }
+
+  const renderBadge = () => {
+    return todo.title.match(/@[a-zA-Z0-9]/gi) && (
+      <ul className="taglist">
+        {
+          todo.title.split(" ").filter(word=> word.match(/^@[a-zA-Z0-9]/gi) !== null).map((tag,i)=> (
+          <li key={i}>{tag.replace("@", "")}</li>)
+          )
+        }
+      </ul>)
+  }
   return (
     <li className={`${editing ? 'editing' : ''} ${todo.completed ? 'completed' : ''}`}>
       <div className="view">
@@ -87,12 +98,7 @@ const TodoItem:FC<ITodoItemProps> = memo(({
           }
         </label>
 
-        {todo.title.match(/@[a-zA-Z0-9]/gi) && <ul className="taglist">
-
-          {
-            todo.title.split(" ").filter(word=> word.match(/^@[a-zA-Z0-9]/gi) !== null).map((tag,i)=> <li key={i}>{tag.replace("@", "")}</li>)
-          }
-        </ul>}
+        {renderBadge()}
        
         <button className="destroy" onClick={onDestroy} />
       </div>

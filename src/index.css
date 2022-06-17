@@ -1,0 +1,16 @@
+.taglist {
+    list-style: none;
+    position: absolute;
+    right: 40px;
+    top: 18px;
+}
+
+.taglist li {
+    display: inline;
+    font-size: .8rem;
+    background-color: green;
+    color: white;
+    padding: 2px 4px;
+    border-radius: 5px;
+    margin-left: 3px;
+}

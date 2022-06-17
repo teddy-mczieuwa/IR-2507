@@ -5,8 +5,7 @@ import { TodoFooter } from "./footer";
 import { TodoItem } from "./todoItem";
 import { ALL_TODOS, ACTIVE_TODOS, COMPLETED_TODOS, ENTER_KEY } from "./constants";
 import { Utils } from "./utils";
-import "todomvc-app-css/index.css";
-import "todomvc-common/base.css";
+
 
 
 const TodoApp:FC = () => {
